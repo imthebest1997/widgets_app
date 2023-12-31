@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:widgets_app/config/menu/menu_items.dart';
-import 'package:widgets_app/presentation/screens/cards/cards_screen.dart';
+import 'package:widgets_app/presentation/widgets/side_menu.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -11,11 +11,14 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
-        title: const Text("Flutter + Material 3"),
-      ),  
-      body: const _HomeView(),          
+        title: const Text('Flutter + Material 3'),
+      ),
+      body: const _HomeView(),
+      drawer:SideMenu(scaffoldKey: scaffoldKey,)
     );
   }
 }
@@ -25,11 +28,13 @@ class _HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     return ListView.builder(
-      physics: const BouncingScrollPhysics(),
       itemCount: appMenuItems.length,
       itemBuilder: (context, index) {
         final menuItem = appMenuItems[index];
+
         return _CustomListTile(menuItem: menuItem);
       },
     );
@@ -49,18 +54,25 @@ class _CustomListTile extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
     
     return ListTile(
+      leading: Icon( menuItem.icon, color: colors.primary ),
+      trailing: Icon( Icons.arrow_forward_ios_rounded, color:colors.primary ),
       title: Text(menuItem.title),
-      subtitle: Text(menuItem.subTitle),
-      leading: Icon(menuItem.icon, color: colors.primary,),
-      trailing: Icon(Icons.chevron_right_outlined, color: colors.primary,),
-      // onTap: () => context.push(menuItem.link), 
-      onTap: () => context.pushNamed(CardsScreen.name), 
+      subtitle: Text( menuItem.subTitle ),
+      onTap: () {
+        
+        // Navigator.of(context).push(
+        //   MaterialPageRoute(
+        //     builder: (context) => const ButtonsScreen(),
+        //   ),
+        // );
+        // Navigator.pushNamed(context, menuItem.link );
+
+        // context.pushNamed( CardsScreen.name );
+        context.push( menuItem.link );
+
+
+      },
     );
   }
 }
 
-/**
- * go -> reemplaza todas las pantallas anteriores
- * push -> Guarda la pantalla en una lista y puedes volver
- * 
- */
