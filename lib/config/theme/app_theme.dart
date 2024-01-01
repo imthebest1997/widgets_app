@@ -12,8 +12,6 @@ const colorList = <Color>[
   Colors.pinkAccent,
 ];
 
-
-
 class AppTheme {
 
   final int selectedColor;
@@ -34,4 +32,14 @@ class AppTheme {
       centerTitle: false
     ),
   );
+
+
+  AppTheme copyWith({
+    int? selectedColor,
+    bool? isDarkMode
+  }) => AppTheme(
+    selectedColor: selectedColor ?? this.selectedColor,
+    isDarkMode: isDarkMode ?? this.isDarkMode
+  );
+
 }
